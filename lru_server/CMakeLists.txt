@@ -19,7 +19,11 @@ endif ()
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_executable(${PROJECT_NAME} main.cc)
+add_executable(${PROJECT_NAME} main.cpp)
+target_include_directories(${PROJECT_NAME} PUBLIC lru_cache/)
+
+# this looks like a trunk
+target_sources( ${PROJECT_NAME} PUBLIC lru_cache/lru_cache.cpp )
 
 # ##############################################################################
 # If you include the drogon source code locally in your project, use this method
@@ -75,4 +79,4 @@ target_sources(${PROJECT_NAME}
 
 # ##############################################################################
 
-add_subdirectory(test)
+#add_subdirectory(test)
