@@ -3,6 +3,7 @@
 
 // internal
 #include "lru_cache/lru_cache.hpp"
+#include "endpoints/endpoints.hpp"
 
 using namespace drogon;
 
@@ -23,30 +24,17 @@ int main( int argc, char** argv ) {
         cerr << "Error: launch without capacity and threads param" << endl;
         return 1;
     }
-    LRUCache* instance = LRUCache::instance( capacity );
-    LRUCache* instance2 = LRUCache::instance( capacity );
+    auto instance = LRUCache::instance( capacity );
+    auto instance2 = LRUCache::instance( capacity );
 
     cout << &( *instance ) << endl;
     cout << &( *instance2 ) << endl;
 
     app()
-        // Регистрируем обработчик indexHandler
-        // для запроса
-        // GET /
         .registerHandler("/", &indexHandler, {Get})
-        .addListener("0.0.0.0",8080)
         .setThreadNum( threads_count )
+        .loadConfigFile("./config.json")
         .run();
 
     return EXIT_SUCCESS;
-}
-
-void indexHandler(const HttpRequestPtr &request, Callback &&callback) {
-    // Формируем JSON-объект
-    Json::Value jsonBody;
-    jsonBody["message"] = "Hello, world";
-
-    // Формируем и отправляем ответ с JSON-объектом
-    auto response = HttpResponse::newHttpJsonResponse(jsonBody);
-    callback(response);
 }

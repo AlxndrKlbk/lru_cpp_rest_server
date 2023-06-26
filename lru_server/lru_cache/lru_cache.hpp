@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <mutex>
 #include <iostream>
 #include <list>
@@ -13,7 +14,7 @@ private:
     int capacity;
     list< int > cache;
     unordered_map< int, list< int >::iterator > map;
-    static LRUCache* volatile pInstance;
+    static std::shared_ptr< LRUCache > pInstance;
 
     // constructors : Don't Implement.
     LRUCache( int capacity ): capacity( capacity ){};
@@ -21,7 +22,7 @@ private:
     void operator=(LRUCache const&);
 
 public:
-    static LRUCache* const instance( int capacity );
+    static std::shared_ptr< LRUCache > const instance( int capacity );
 
     /**
      * @brief returns false if key is not present in cache.

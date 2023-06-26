@@ -1,16 +1,14 @@
-
 // internal
 #include "lru_cache/lru_cache.hpp"
 
 mutex mtx;
-LRUCache* volatile LRUCache::pInstance = 0;
+std::shared_ptr< LRUCache > LRUCache::pInstance = 0;
 
-LRUCache* const LRUCache::instance( int capacity ){
-    if (pInstance == 0) {
+std::shared_ptr< LRUCache > const LRUCache::instance( int capacity ){
+    if ( pInstance == nullptr) {
         mtx.lock();
         if (pInstance == 0) {
-            LRUCache* volatile temp = new LRUCache( capacity );
-            pInstance = temp;
+            pInstance = std::shared_ptr< LRUCache >( new LRUCache( capacity ) );
         }
         mtx.unlock();
     }
