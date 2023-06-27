@@ -2,51 +2,57 @@
 #include "lru_cache/lru_cache.hpp"
 
 mutex mtx;
-std::shared_ptr< LRUCache > LRUCache::pInstance = 0;
+std::shared_ptr< LRUCache > LRUCache::mInstancePtr = nullptr;
 
-std::shared_ptr< LRUCache > const LRUCache::instance( int capacity ){
-    if ( pInstance == nullptr) {
+void LRUCache::setMap(const unordered_map<Int64, list<Int64>::iterator> &newMap)
+{
+    mMap = newMap;
+}
+
+std::shared_ptr< LRUCache > const LRUCache::instance( Int64 capacity ){
+    // ToDo it is not null before ini
+    if ( mInstancePtr == nullptr ) {
         mtx.lock();
-        if (pInstance == 0) {
-            pInstance = std::shared_ptr< LRUCache >( new LRUCache( capacity ) );
+        if (mInstancePtr == 0) {
+            mInstancePtr = std::shared_ptr< LRUCache >( new LRUCache( capacity ) );
         }
         mtx.unlock();
     }
 
-    return pInstance;
+    return mInstancePtr;
 }
 
-bool LRUCache::get( int key )
+Int64 LRUCache::get( const Int64& key )
 {
-    auto it = map.find(key);
-    if (it == map.end()) {
-        return false;
+    auto it = mMap.find(key);
+    if (it == mMap.end()) {
+        return -1;
     }
-    cache.splice(cache.end(), cache, it->second);
-    return true;
+    mCache.splice(mCache.end(), mCache, it->second);
+    return *( it->second );
 }
 
-void LRUCache::refer( int key )
+void LRUCache::refer( const Int64& key, const Int64& value )
 {
-    if (get(key)) {
+    if ( get( key ) ) {
         return;
     }
-    put(key);
+    put( key, value );
 }
 
 void LRUCache::display()
 {
-    for (auto it = cache.rbegin(); it != cache.rend(); ++it) {
+    for (auto it = mCache.rbegin(); it != mCache.rend(); ++it) {
         cout << *it << " ";
     }
 }
 
-void LRUCache::put( int key ) {
-    if (cache.size() == capacity) {
-        int first_key = cache.front();
-        cache.pop_front();
-        map.erase(first_key);
+void LRUCache::put( const Int64& key, const Int64& value ) {
+    if (mCache.size() == mCapacity) {
+        Int64 first_key = mCache.front();
+        mCache.pop_front();
+        mMap.erase(first_key);
     }
-    cache.push_back(key);
-    map[key] = --cache.end();
+    mCache.push_back(value);
+    mMap[key] = --mCache.end();
 }

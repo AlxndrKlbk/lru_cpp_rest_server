@@ -1,0 +1,6 @@
+// https://drogonframework.github.io/drogon-docs/#/ENG-04-2-Controller-HttpController
+
+
+curl -XGET http://0.0.0.0:8080/ApiController/get -i -H 'content-type: application/json' -d '{"key":1}'
+curl -XPOST http://0.0.0.0:8080/ApiController/post -i -H 'content-type: application/json' -d '{"key":1, "value": 1}'
+

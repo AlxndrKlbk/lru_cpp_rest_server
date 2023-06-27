@@ -20,13 +20,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_executable(${PROJECT_NAME} main.cpp)
-target_include_directories(${PROJECT_NAME} PUBLIC lru_cache/)
-target_include_directories(${PROJECT_NAME} PUBLIC endpoints/)
+target_include_directories(${PROJECT_NAME} PUBLIC
+    lru_cache/
+    endpoints/
+)
 
 # this looks like a trunk
 target_sources( ${PROJECT_NAME} PUBLIC
     lru_cache/lru_cache.cpp
-    endpoints/endpoints.cpp
+    endpoints/ApiController.cpp
 )
 
 

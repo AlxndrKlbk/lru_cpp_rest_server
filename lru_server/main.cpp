@@ -3,7 +3,6 @@
 
 // internal
 #include "lru_cache/lru_cache.hpp"
-#include "endpoints/endpoints.hpp"
 
 using namespace drogon;
 
@@ -21,17 +20,14 @@ int main( int argc, char** argv ) {
     }
     else
     {
-        cerr << "Error: launch without capacity and threads param" << endl;
+        cerr << "Error: launch without capacity and threads number param"
+                "or not valid launch params" << endl;
         return 1;
     }
-    auto instance = LRUCache::instance( capacity );
-    auto instance2 = LRUCache::instance( capacity );
+    LRUCache::instance( capacity );
 
-    cout << &( *instance ) << endl;
-    cout << &( *instance2 ) << endl;
-
+    //.registerController( http_controller_ptr )
     app()
-        .registerHandler("/", &indexHandler, {Get})
         .setThreadNum( threads_count )
         .loadConfigFile("./config.json")
         .run();

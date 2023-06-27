@@ -6,23 +6,26 @@
 #include <list>
 #include <unordered_map>
 
+// internal
+#include "forwards.hpp"
+
 using namespace std;
 using std::mutex;
 
 class LRUCache {
 private:
-    int capacity;
-    list< int > cache;
-    unordered_map< int, list< int >::iterator > map;
-    static std::shared_ptr< LRUCache > pInstance;
+    Int64 mCapacity;
+    list< Int64 > mCache;
+    unordered_map< Int64, list< Int64 >::iterator > mMap;
+    static std::shared_ptr< LRUCache > mInstancePtr;
 
     // constructors : Don't Implement.
-    LRUCache( int capacity ): capacity( capacity ){};
+    LRUCache( Int64 capacity ): mCapacity( capacity ){};
     LRUCache(LRUCache const&);
     void operator=(LRUCache const&);
 
 public:
-    static std::shared_ptr< LRUCache > const instance( int capacity );
+    static std::shared_ptr< LRUCache > const instance( Int64 capacity );
 
     /**
      * @brief returns false if key is not present in cache.
@@ -30,13 +33,13 @@ public:
      * @param key
      * @return
      */
-    bool get( int key );
+    Int64 get( const Int64& key );
 
     /**
      * @brief refer
      * @param key
      */
-    void refer( int key );
+    void refer( const Int64& key, const Int64& value );
 
     /**
      * @brief display contents of cache in Reverse Order
@@ -47,5 +50,6 @@ public:
      * @brief put value to cache
      * @param key
      */
-    void put( int key );
+    void put( const Int64& key, const Int64& value );
+    void setMap(const unordered_map<Int64, list<Int64>::iterator> &newMap);
 };
