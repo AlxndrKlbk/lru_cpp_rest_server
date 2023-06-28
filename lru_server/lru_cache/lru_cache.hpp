@@ -25,7 +25,7 @@ private:
     void operator=(LRUCache const&);
 
 public:
-    static std::shared_ptr< LRUCache > const instance( Int64 capacity );
+    static std::shared_ptr< LRUCache > const instance( Int64 capacity = 0 );
 
     /**
      * @brief returns false if key is not present in cache.

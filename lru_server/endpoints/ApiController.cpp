@@ -3,8 +3,6 @@
 #include <iostream>
 // Add definition of your processing function here
 
-auto cache_inst = LRUCache::instance( 0 );
-
 
 HttpResponsePtr makeSuccessResponse()
 {
@@ -25,11 +23,12 @@ HttpResponsePtr makeFailedResponse()
 
 void ApiController::get( const HttpRequestPtr& req, Callback &&callback )
 {
+    std::shared_ptr< LRUCache > cache = LRUCache::instance( );
     try
     {
         auto jsonPtr = req->getJsonObject();
         Json::Value res;
-        res["value"] = cache_inst->get( (*jsonPtr)["key"].asLargestInt() );
+        res["value"] = cache->get( (*jsonPtr)["key"].asLargestInt() );
 
         callback( HttpResponse::newHttpJsonResponse( std::move( res ) ) );
     }
@@ -41,12 +40,13 @@ void ApiController::get( const HttpRequestPtr& req, Callback &&callback )
 
 void ApiController::post(const HttpRequestPtr& req, Callback &&callback ) const
 {
+    std::shared_ptr< LRUCache > cache = LRUCache::instance( );
     try
     {
         auto jsonPtr = req->getJsonObject();
         Json::Value res;
 
-        cache_inst->put( (*jsonPtr)["key"].asLargestInt(),
+        cache->put( (*jsonPtr)["key"].asLargestInt(),
                          (*jsonPtr)["value"].asLargestInt() );
         callback( makeSuccessResponse() );
     }
