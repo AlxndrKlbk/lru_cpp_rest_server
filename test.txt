@@ -1,3 +1,6 @@
+// crosscomplie
+cmake -S /var/repo/lru_cpp_rest_server/lru_server/ -B /var/repo_build/lru_cpp_rest_server/build-lru_server-MinGW-Debug -DCMAKE_TOOLCHAIN_FILE=/var/repo/lru_cpp_rest_server/lru_server/TC-mingw.cmake
+
 // https://drogonframework.github.io/drogon-docs/#/ENG-04-2-Controller-HttpController
 
 

@@ -11,7 +11,9 @@ set(CMAKE_FIND_ROOT_PATH
     /usr/x86_64-w64-mingw32/lib
     /usr/lib
     /usr/lib/cmake
-    /usr/lib/cmake/Drogon)
+    /usr/lib/cmake/Drogon
+    /usr/x86_64-w64-mingw32/lib/cmake
+)
 
 # adjust the default behavior of the FIND_XXX() commands:
 # search programs in the host environment
