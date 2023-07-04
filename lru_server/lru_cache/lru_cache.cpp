@@ -48,11 +48,11 @@ void LRUCache::display()
 }
 
 void LRUCache::put( const Int64& key, const Int64& value ) {
-    auto it = std::find(mCache.begin(), mCache.end(), value);
+    auto it = mMap.find(key);
 
-    if( it != mCache.end() )
+    if( it != nullptr )
     {
-        mCache.erase( it );
+        mCache.erase( it->second );
     }
     else if (mCache.size() == mCapacity) {
         Int64 first_key = mCache.front();
